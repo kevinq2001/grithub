@@ -18,6 +18,9 @@ nyj.epa |>
   ) |>
   fmt_number(columns = avgepa, decimals = 3) |>
   data_color(columns = avgepa, palette = "RdYlGn")
+  ) |>
+  gtsave( "nyj_epa_chart.png")
+
 
 ## NFL Run Pct by Down##
 nfl.run.pct <- pbp 
