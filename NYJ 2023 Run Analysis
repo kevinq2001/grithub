@@ -1,45 +1,55 @@
 install.packages("nflfastR")
 library(nflfastR)
 
+## Jets avg EPA per Down##
 nyj.epa <- pbp 
-  |> filter(posteam=="NYJ", play_type=="run" | play_type== "pass", !is.na(down)) 
-    |> group_by(posteam, down, play_type) 
-      |> summarize (avgepa=mean(epa))
-# A tibble: 8 × 4
-# Groups:   posteam, down [4]
-  posteam  down play_type avgepa
-  <chr>   <dbl> <chr>      <dbl>
-1 NYJ         1 pass      -0.202
-2 NYJ         1 run       -0.171
-3 NYJ         2 pass      -0.306
-4 NYJ         2 run       -0.193
-5 NYJ         3 pass      -0.451
-6 NYJ         3 run       -0.328
-7 NYJ         4 pass       0.205
-8 NYJ         4 run        0.341
+  |> filter(posteam=="NYJ", play_type=="run" | play_type== "pass", !is.na(down)
+   ) |> group_by(posteam, down, play_type 
+   ) |> summarize (avgepa=mean(epa))
+nyj.epa |>
+  gt() |>
+  tab_header(
+    title = "2023 NYJ EPA by Down",
+    subtitle = "Grouped by Play Type"
+  ) |>
+  cols_label(
+    play_type = "Down",
+    avgepa = "Avg EPA"
+  ) |>
+  fmt_number(columns = avgepa, decimals = 3) |>
+  data_color(columns = avgepa, palette = "RdYlGn")
 
-
+## NFL Run Pct by Down##
 nfl.run.pct <- pbp 
-  |> filter(play_type=="run" |play_type=="pass", !is.na(down))
-    |> group_by(down)
-      |> summarize(total_plays=n(), total_runs= sum(play_type=="run"), run_pct= (total_runs/total_plays))
-# A tibble: 4 × 4
-   down total_plays total_runs run_pct
-  <dbl>       <int>      <int>   <dbl>
-1     1       15435       7879   0.510
-2     2       11749       4877   0.415
-3     3        7457       1766   0.237
-4     4         833        308   0.370
+  |> filter(play_type=="run" |play_type=="pass", !is.na(down)
+  ) |> group_by(down
+  ) |> summarize(total_plays=n(), total_runs= sum(play_type=="run"), run_pct= (total_runs/total_plays))
+nfl.run.pct |>
+  gt() |>
+  tab_header(
+    title = "2023 NFL Rush Percentage by Down",
+    subtitle = "Grouped by Play Type"
+  ) |>
+  cols_label(
+    down = "Down",
+    run_pct = "Run Pct", total_plays="Total Plays", total_runs="Total Runs"
+  ) |>
+  gtsave( "nfl_run_pct.png")
 
+
+## NJY Run Pct by Down##
 nyj.run.pct <- pbp 
-  |> filter(play_type=="run" | play_type == "pass", posteam=="NYJ", !is.na(down))
-    |> group_by(posteam, down)
-      |> summarize(total.plays=n(), run.plays= sum(play_type=="run"), run.pct=run.plays/total.plays)
-# A tibble: 4 × 5
-# Groups:   posteam [1]
-  posteam  down total.plays run.plays run.pct
-  <chr>   <dbl>       <int>     <int>   <dbl>
-1 NYJ         1         442       207   0.468
-2 NYJ         2         338       119   0.352
-3 NYJ         3         236        45   0.191
-4 NYJ         4          29        12   0.414
+    |> filter(play_type=="run" | play_type == "pass", posteam=="NYJ", !is.na(down)
+  ) |> group_by(posteam, down
+  ) |> summarize(total.plays=n(), run.plays= sum(play_type=="run"), run.pct=run.plays/total.plays)
+nyj.run.pct |>
+  gt() |>
+  tab_header(
+    title = "2023 NYJ Rush Percentage by Down",
+    subtitle = "Grouped by Play Type"
+  ) |>
+  cols_label(
+    down = "Down",
+    run.pct = "Run Pct", total.plays="Total Plays", run.plays="Total Runs"
+  ) |>
+  gtsave( "nyj_run_pct.png")
