@@ -20,9 +20,7 @@ nyj.epa |>
   data_color(columns = avgepa, palette = "RdYlGn")
   ) |>
   gtsave( "nyj_epa_chart.png")
-<div align="right">
-  <img src="nyj_epa_chart.png" width="400">
-</div>
+
 
 ## NFL Run Pct by Down##
 nfl.run.pct <- pbp 
