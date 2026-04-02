@@ -20,7 +20,6 @@ nyj.epa |>
   data_color(columns = avgepa, palette = "RdYlGn")
   ) |>
   gtsave( "nyj_epa_chart.png")
-"C:\Users\kevin\OneDrive\Documents\Rstudio Images\nyj_epa_chart.png"
 
 
 ## NFL Run Pct by Down##
