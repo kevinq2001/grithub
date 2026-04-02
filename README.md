@@ -1,5 +1,5 @@
 ## Projects
-- 2023 Jets Offensive Analysis ✅ (nyj_epa_chart.png)
+- 2023 Jets Offensive Analysis ✅
 - NFL 4th Down Decision Analysis 🔄 in progress
 - QB 3rd Down Efficiency Model
 - College Recruiting Efficiency Model
