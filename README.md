@@ -7,11 +7,11 @@ compared to league average.
 Key finding: Jets ran below league average on 1st 
 and 2nd down but above league average on 3rd down.
 
+Tools: R, nflfastR, tidyverse, ggplot2
 <div align="center">
   <img src="nyj_epa_chart.png" width="400">
 </div>
 
-Tools: R, nflfastR, tidyverse, ggplot2
 ---
 ### 🏈 Home Field Advantage - Three Stage ELO Analysis
 **Research Question:** Is home field advantage stronger in Conference or Non-Conference games?
