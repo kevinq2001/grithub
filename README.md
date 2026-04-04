@@ -21,11 +21,16 @@ and 2nd down but above league average on 3rd down.
 - ELO controlled at < 100 points difference: Conference (.597) ⬆️ than Non-Conference (.542)
 - ELO controlled at < 200 points difference: Conference (.592) ⬆️ than Non-Conference (.578)
 - ELO controlled at < 300 points difference: Conference (.582) ⬇️ than Non-Conference (.599) talent mismatches re-enter sample.
-
+  
+<div align="center">
+  <img src="home_field_advantage_elo_thresholds.png" width="400">
+</div>
 **Conclusion:** 
 True home field advantage is marginally stronger in conference play when controlling for talent mismatch. 
 This could be due to larger crowds for more heated rivalries, that effect the away teams more. Also, cumulative conference road travel fatigue could be decreasing the away teams performamnce since conference games generally are being played in the middle to end of a teams schedule. That being said:
+
 **DON'T BE AFRAID TO SCHEDULE CHALLENGING NON-CONFERENCE OPPONENTS**
+
 Tools: R, cfbfastR, tidyverse, ggplot2
 
 
