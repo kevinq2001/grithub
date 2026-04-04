@@ -1,0 +1,78 @@
+# I wanted to measure how much of a difference Home Field Advantage was for in Conference and out of Conference Games. 
+# So I filtered my search to get the win rate for both examples.
+
+cfbd_games |> filter(neutral_site==FALSE, !is.na(home_points), !is.na(away_points), home_division=="fbs") |>
+  mutate(home_win=home_points>away_points) |> 
+  group_by(conference_game) |> 
+  summarize(home_win_rate= mean(home_win, na.rm=TRUE), total_games = n(), .groups= "drop")
+# A tibble: 2 × 3
+conference_game home_win_rate total_games
+<lgl>                   <dbl>       <int>
+  1 FALSE                   0.758         310
+2 TRUE                    0.566         535
+
+# The only issue is all of the out of conference cupcake home schedules that Ranked teams play. 
+# Like Alabama playing Chattanooga or Ohio State playing Western Kentucky.
+# So I took that out of the equation for filtering for games where teams have similar ELO's.
+# (ELO is a rating system used to measure and compare the skill levels of players in competitive games.)
+
+# Step 1 - I built the original filter to apply to 3 different thresholds of ELO  
+competitive_games <- cfbd_games |> filter(home_division=="fbs", !is.na(home_pregame_elo),
+                                          !is.na(away_pregame_elo), neutral_site==FALSE,
+                                          !is.na(home_points),
+                                          !is.na(away_points)) |>
+      mutate(comp_game= abs(home_pregame_elo - away_pregame_elo),
+             home_win= home_points > away_points)
+ 
+# Step 2 — I built all three cutoff summaries and combine
+results <- bind_rows(
+  competitive_games |>
+    filter(comp_game < 100) |>
+    group_by(conference_game) |>
+    summarize(home_win_rate = mean(home_win, na.rm = TRUE),
+              .groups = "drop") |>
+    mutate(elo_cutoff = "100"),
+  
+  competitive_games |>
+    filter(comp_game < 200) |>
+      group_by(conference_game) |>
+      summarize(home_win_rate = mean(home_win, na.rm = TRUE),
+                .groups = "drop") |>
+    mutate(elo_cutoff = "200"),
+  
+  competitive_games |>
+    filter(comp_game < 300) |>
+      group_by(conference_game) |>
+      summarize(home_win_rate = mean(home_win, na.rm = TRUE),
+                .groups = "drop") |>
+    mutate(elo_cutoff = "300")
+)
+
+# Step 3 — Clean up results with factor ordering and game type label
+results <- results |>
+  mutate(
+    game_type = ifelse(conference_game, 
+                       "Conference", 
+                       "Non Conference"),
+    elo_cutoff = factor(elo_cutoff, levels = c("100", "200", "300")))
+
+  results |>
+    ggplot(aes(x = elo_cutoff,
+               y = home_win_rate,
+               fill = game_type)) +
+    geom_col(position = "dodge") +
+    scale_y_continuous(
+      limits = c(0.45, 0.65),
+      oob = scales::squish
+    ) +
+    scale_fill_manual(values = c("Conference" = "steelblue",
+                                 "Non Conference" = "darkorange")) +
+    theme_minimal() +
+    labs(
+      title = "Home Field Advantage Across ELO Competitiveness Thresholds",
+      subtitle = "Conference home advantage holds at strict thresholds but reverses with looser controls",
+      x = "ELO Difference Cutoff",
+      y = "Home Win Rate",
+      fill = "Game Type",
+      caption = "Data: cfbfastR 2023 FBS Regular Season"
+    )
