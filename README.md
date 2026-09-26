@@ -28,7 +28,7 @@ Tools: R, nflfastR, tidyverse, ggplot2
 </div>
 **Conclusion:** 
 True home field advantage is marginally stronger in conference play when controlling for talent mismatch. 
-This could be due to larger crowds for more heated rivalries, that effect the away teams more. Also, cumulative conference road travel fatigue could be decreasing the away teams performamnce since conference games generally are being played in the middle to end of a teams schedule. That being said:
+This could be due to larger crowds for more heated rivalries, that effect the away teams more. Also, cumulative conference road travel fatigue could be decreasing the away teams performance since conference games generally are being played in the middle to end of a teams schedule. That being said:
 
 **DON'T BE AFRAID TO SCHEDULE CHALLENGING NON-CONFERENCE OPPONENTS!!!**
 
